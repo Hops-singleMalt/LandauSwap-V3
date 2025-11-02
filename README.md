@@ -25,6 +25,7 @@
 
 ## Whitepaper
 - Latest draft (PDF): [`docs/landauswap-resistant-amm.pdf`](docs/landauswap-resistant-amm.pdf)
+- https://www.notion.so/Cypherpunk-guid-29f9a105db93809a976ee97b1a87cde5?source=copy_link
 
 ---
 
