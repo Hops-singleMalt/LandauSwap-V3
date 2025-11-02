@@ -1,17 +1,18 @@
-# LandauSwap-V3
+# LandauSwap
 
-cypherphonk project
+> Resistant AMM prototype for Solana: zero-slip micro trades, resistance-fee protection for whales.
 
-## Dev Status (2025-10-21)
+## Project Status
+- MVP Anchor program scaffold lives under `landau_swap/programs/landau_swap`.
+- Batch math + integration tests exist, but vault transfers and LP accounting are still TODO.
+- `anchor build` currently blocked by missing crates.io network access.
 
-- **方向**: 基于 Solana + Anchor 的“Resistant AMM”实验，实现二阶阻力曲线 + 批量撮合以保护 LP、优化小额交易。
-- **当前工作**:
-  - 在 `landau_swap/programs/landau_swap/src/` 下完成了 MVP 程序骨架：账户结构、错误码、阻力曲线整数数学、`initialize_pool`/`{add,remove}_liquidity`/`place_order`/`settle_batch` 等指令。
-  - `compute_rational_trade` 已有 Rust 单测；`tests/landau_swap.ts` 搭建了 Anchor 集成测试，演示小额 vs. 大额交易的费率差异。
-  - 解压了本地 Solana 工具链至 `~/solana-release/bin`，需手动 `export PATH="$HOME/solana-release/bin:…"`。
-- **阻塞**: `anchor build` 仍需下载 crates.io 依赖，当前环境的网络/代理不可用（反复报 `Failed to connect to localhost:7890` 或 `Could not resolve host: static.crates.io`）。
+## Whitepaper
+- Latest draft (PDF): [`docs/landauswap-resistant-amm.pdf`](docs/landauswap-resistant-amm.pdf)
 
-## Next Steps
-1. 修复网络或代理，使 `cargo-build-sbf` 可以访问 crates.io；重新执行 `anchor build` / `anchor test`（或 `npm test`）。
-2. 待测试通过后，将真实 token 转账逻辑补进流动性与下单流程，并完善对未校验账户的检查。
-3. 进一步扩展：批次时间窗口管理、LP 份额/费用结算、更多曲线实现、性能调优等。
+---
+
+## 中文简介
+- 项目定位: 面向 Solana 的阻力式 AMM, 小额交易近乎零滑点, 大额单需要向 LP 支付高额阻力费.
+- 当前进度: Anchor 程序骨架 + 测试已就绪, 真实资产转账/LP 记账/网络构建仍在开发中.
+- 白皮书: [`docs/landauswap-resistant-amm.pdf`](docs/landauswap-resistant-amm.pdf)

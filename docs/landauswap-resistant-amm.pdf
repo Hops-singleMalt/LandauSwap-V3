@@ -1,0 +1,97 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [3 0 R] /Count 1 >>
+endobj
+3 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Contents 4 0 R /Resources << /Font << /F1 5 0 R >> >> >>
+endobj
+4 0 obj
+<< /Length 1607 >>
+stream
+BT
+/F1 18 Tf
+50 770 Td (LandauSwap Resistant AMM) Tj
+/F1 12 Tf
+50 742 Td (Whitepaper Snapshot - Oct 2025) Tj
+T*
+/F1 12 Tf
+50 718 Td ( ) Tj
+T*
+/F1 12 Tf
+50 694 Td (Problem) Tj
+T*
+/F1 10 Tf
+50 670 Td (- Constant product AMMs leak LP value to MEV and large swings.) Tj
+T*
+/F1 10 Tf
+50 646 Td (- Micro trades pay linear slippage, blocking payment use cases.) Tj
+T*
+/F1 10 Tf
+50 622 Td (- Oracle-tuned dynamic fees add governance surface and latency.) Tj
+T*
+/F1 12 Tf
+50 598 Td ( ) Tj
+T*
+/F1 12 Tf
+50 574 Td (Solution Pillars) Tj
+T*
+/F1 10 Tf
+50 550 Td (1. Resistance Curve: s\(r\)=r^2/\(1+r^2\) for zero-slip micros and near-total friction on whales.) Tj
+T*
+/F1 10 Tf
+50 526 Td (2. Oracle-free pricing: pool state purely determines price, no external feeds.) Tj
+T*
+/F1 10 Tf
+50 502 Td (3. Batch clearing: aggregate orders per window to neutralise order racing.) Tj
+T*
+/F1 12 Tf
+50 478 Td ( ) Tj
+T*
+/F1 12 Tf
+50 454 Td (Implementation Snapshot) Tj
+T*
+/F1 10 Tf
+50 430 Td (- Anchor program skeleton with pool/batch accounts and resistance math.) Tj
+T*
+/F1 10 Tf
+50 406 Td (- Integration tests showing fee contrast between 1k and 400k trades.) Tj
+T*
+/F1 10 Tf
+50 382 Td (- Pending work: real token vaults, LP shares, multi-curve support, audits.) Tj
+T*
+/F1 12 Tf
+50 358 Td ( ) Tj
+T*
+/F1 12 Tf
+50 334 Td (Roadmap Highlights) Tj
+T*
+/F1 10 Tf
+50 310 Td (- Restore build pipeline once crates.io access returns.) Tj
+T*
+/F1 10 Tf
+50 286 Td (- Incentivise batch settlers and distribute resistance fees to LPs.) Tj
+T*
+/F1 10 Tf
+50 262 Td (- Ship reference UI + SDK, run fork-based stress tests, complete audits.) Tj
+T*
+ET
+endstream
+endobj
+5 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+endobj
+xref
+0 6
+0000000000 65535 f 
+0000000009 00000 n 
+0000000058 00000 n 
+0000000115 00000 n 
+0000000241 00000 n 
+0000001899 00000 n 
+trailer << /Size 6 /Root 1 0 R >>
+startxref
+1969
+%%EOF
