@@ -1,97 +1,743 @@
 %PDF-1.4
+%����
 1 0 obj
 << /Type /Catalog /Pages 2 0 R >>
 endobj
 2 0 obj
-<< /Type /Pages /Kids [3 0 R] /Count 1 >>
+<< /Type /Pages /Count 8 /Kids [5 0 R 7 0 R 9 0 R 11 0 R 13 0 R 15 0 R 17 0 R 19 0 R] >>
 endobj
 3 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Contents 4 0 R /Resources << /Font << /F1 5 0 R >> >> >>
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
 endobj
 4 0 obj
-<< /Length 1607 >>
+<< /Length 2639 >>
 stream
 BT
-/F1 18 Tf
-50 770 Td (LandauSwap Resistant AMM) Tj
-/F1 12 Tf
-50 742 Td (Whitepaper Snapshot - Oct 2025) Tj
+/F1 11 Tf
+14 TL
+72 750 Td
+(LANDAUSWAP RESISTANT AMM — WHITEPAPER) Tj
 T*
-/F1 12 Tf
-50 718 Td ( ) Tj
 T*
-/F1 12 Tf
-50 694 Td (Problem) Tj
 T*
-/F1 10 Tf
-50 670 Td (- Constant product AMMs leak LP value to MEV and large swings.) Tj
+(Version: 0.9 \(Draft\)) Tj
 T*
-/F1 10 Tf
-50 646 Td (- Micro trades pay linear slippage, blocking payment use cases.) Tj
+(Network focus: Solana mainnet-beta) Tj
 T*
-/F1 10 Tf
-50 622 Td (- Oracle-tuned dynamic fees add governance surface and latency.) Tj
+(Authors: LandauSwap Core Contributors) Tj
 T*
-/F1 12 Tf
-50 598 Td ( ) Tj
+(Last updated: 2024-XX-XX) Tj
 T*
-/F1 12 Tf
-50 574 Td (Solution Pillars) Tj
 T*
-/F1 10 Tf
-50 550 Td (1. Resistance Curve: s\(r\)=r^2/\(1+r^2\) for zero-slip micros and near-total friction on whales.) Tj
 T*
-/F1 10 Tf
-50 526 Td (2. Oracle-free pricing: pool state purely determines price, no external feeds.) Tj
 T*
-/F1 10 Tf
-50 502 Td (3. Batch clearing: aggregate orders per window to neutralise order racing.) Tj
+(0. Abstract) Tj
 T*
-/F1 12 Tf
-50 478 Td ( ) Tj
 T*
-/F1 12 Tf
-50 454 Td (Implementation Snapshot) Tj
+(Constant-product AMMs have unlocked permissionless trading but exhibit two structural) Tj
 T*
-/F1 10 Tf
-50 430 Td (- Anchor program skeleton with pool/batch accounts and resistance math.) Tj
+(weaknesses: micro trades pay non-zero slip, while large trades transfer value from LPs to) Tj
 T*
-/F1 10 Tf
-50 406 Td (- Integration tests showing fee contrast between 1k and 400k trades.) Tj
+(arbitrageurs through leverage-driven rebalancing \(LVR\). LandauSwap introduces a) Tj
 T*
-/F1 10 Tf
-50 382 Td (- Pending work: real token vaults, LP shares, multi-curve support, audits.) Tj
+(resistance-based AMM for Solana that bends the price impact curve, providing near-zero) Tj
 T*
-/F1 12 Tf
-50 358 Td ( ) Tj
+(slip for retail order flow and steeply escalating fees for whale trades that consume) Tj
 T*
-/F1 12 Tf
-50 334 Td (Roadmap Highlights) Tj
+(depth. Orders are aggregated into discrete batches, neutralizing sandwich attacks and) Tj
 T*
-/F1 10 Tf
-50 310 Td (- Restore build pipeline once crates.io access returns.) Tj
+(letting LPs capture the convex resistance premium. The protocol is built around audited) Tj
 T*
-/F1 10 Tf
-50 286 Td (- Incentivise batch settlers and distribute resistance fees to LPs.) Tj
+(SPL vault custody, deterministic on-chain math, and a production architecture that meets) Tj
 T*
-/F1 10 Tf
-50 262 Td (- Ship reference UI + SDK, run fork-based stress tests, complete audits.) Tj
+(aggregator requirements for latency, price previews, and observability.) Tj
 T*
+T*
+T*
+T*
+(1. Background & Problem Statement) Tj
+T*
+T*
+(Automated market makers leveraging constant-product invariants \(`xy = k`\) have become) Tj
+T*
+(liquidity backbones across DeFi. Despite their simplicity, two deficiencies persist:) Tj
+T*
+(• **LVR and value leakage:** arbitrageurs profit whenever the pool price lags the true) Tj
+T*
+(market price, eroding LP returns. Research on Uniswap v2 and v3 shows that up to 50% of) Tj
+T*
+(swap fees can be siphoned through LVR in volatile markets.) Tj
+T*
+(• **Inefficient micro trades:** even minimal trades experience slippage proportional to) Tj
+T*
+(the product curve gradient, hurting wallets and payment apps that rely on precise) Tj
+T*
+(execution.) Tj
+T*
+T*
+(On Solana, high throughput magnifies MEV susceptibility. The network's short block times) Tj
+T*
+(allow sandwich bots to front-run trades by inserting transactions before and after a) Tj
+T*
+(victim swap. Aggregators such as Jupiter and Raydium require pools to deliver consistent) Tj
+T*
+(price previews, reliable settlement, and real-time data feeds; early-stage AMMs struggle) Tj
+T*
+(to satisfy these integration thresholds.) Tj
+T*
+T*
+(LandauSwap targets stable and low-volatility pairs \(USDC/USDT, SOL stables\) plus long-tail) Tj
+T*
+(assets that currently lack sustainable LP yield. The design excludes off-chain oracles to) Tj
+T*
+(avoid centralization, instead relying on batch clearing and convex fees to restore LP) Tj
+T*
+(edge. The protocol must honor Solana's compute limits and provide fairness to small) Tj
 ET
 endstream
 endobj
 5 0 obj
-<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+<< /Type /Page /Parent 2 0 R /Resources << /Font << /F1 3 0 R >> >> /MediaBox [0 0 612 792] /Contents 4 0 R >>
+endobj
+6 0 obj
+<< /Length 2045 >>
+stream
+BT
+/F1 11 Tf
+14 TL
+72 750 Td
+(traders while maintaining permissionless access.) Tj
+T*
+T*
+T*
+T*
+(2. Design Goals & Principles) Tj
+T*
+T*
+(1. **Capital protection:** LP principal should not be extracted by LVR; resistance fees) Tj
+T*
+(must accumulate to pool vaults.) Tj
+T*
+(2. **Retail friendliness:** trades below a configurable threshold experience slip) Tj
+T*
+(approaching zero, enabling payments and routing micro-flows.) Tj
+T*
+(3. **Convex cost for depth:** large trades pay exponentially higher fees that compensate) Tj
+T*
+(LPs for temporary imbalance and discourage manipulation.) Tj
+T*
+(4. **Permissionless and oracle-free:** all pricing logic resides on-chain without external) Tj
+T*
+(price feeds; batching ensures coherent clearing prices.) Tj
+T*
+(5. **Governable but open:** protocol upgrades and parameter changes go through multi-sig) Tj
+T*
+(governance while keeping daily operations trustless.) Tj
+T*
+(6. **Observability and composability:** every state change emits events; SDKs expose) Tj
+T*
+(read/write flows so aggregators can integrate seamlessly.) Tj
+T*
+T*
+T*
+T*
+(3. Mathematical Model) Tj
+T*
+T*
+T*
+(3.1 Definitions) Tj
+T*
+T*
+(Consider a pool with reserves `\(X, Y\)` representing tokens A and B. A trader submits `Δx`) Tj
+T*
+(of token A intending to receive token B. Define:) Tj
+T*
+(• `phi = Δx / X` \(normalized trade size\),) Tj
+T*
+(• `r = phi / 2` \(resistance variable\),) Tj
+T*
+(• `p = Y / X` \(instantaneous price before the trade\),) Tj
+T*
+(• `s\(r\)` \(resistance function, 0 ≤ s < 1\).) Tj
+T*
+T*
+(We assume continuous reserves, discrete batch settlements, and no exogenous price oracle.) Tj
+T*
+(Batches collect same-direction orders before executing a deterministic clearing function.) Tj
+T*
+T*
+(3.2 Resistance Curves) Tj
+T*
+T*
+(The baseline Landau resistance curve is:) Tj
+T*
+([code block omitted]) Tj
+T*
+(s\(r\) = r^2 / \(1 + r^2\)) Tj
+T*
+([code block omitted]) Tj
+T*
+(This curve satisfies:) Tj
+T*
+(• `s\(0\) = 0` ensuring zero slip at zero trade size,) Tj
+T*
+(• monotonic increase with `r`,) Tj
+ET
+endstream
+endobj
+7 0 obj
+<< /Type /Page /Parent 2 0 R /Resources << /Font << /F1 3 0 R >> >> /MediaBox [0 0 612 792] /Contents 6 0 R >>
+endobj
+8 0 obj
+<< /Length 2389 >>
+stream
+BT
+/F1 11 Tf
+14 TL
+72 750 Td
+(• asymptotic approach to 1, meaning full trade value is captured as fee when the pool is) Tj
+T*
+(nearly drained,) Tj
+T*
+(• `d^2 s / dr^2 > 0`, delivering convex growth.) Tj
+T*
+T*
+(An alternative exponential family can be toggled by governance:) Tj
+T*
+([code block omitted]) Tj
+T*
+(s_exp\(r\) = 1 - exp\(-r^2\)) Tj
+T*
+([code block omitted]) Tj
+T*
+(Hybrid curves blending rational and exponential terms enable tailoring to pool volatility.) Tj
+T*
+(All candidate curves must stay within `0 ≤ s\(r\) < 1` and be differentiable to maintain) Tj
+T*
+(predictable slip profiles.) Tj
+T*
+T*
+(3.3 Execution Price & Fees) Tj
+T*
+T*
+(For a submitted `Δx`, the actual output is:) Tj
+T*
+([code block omitted]) Tj
+T*
+(Δy_actual = \(1 - s\(r\)\) * p * Δx) Tj
+T*
+([code block omitted]) Tj
+T*
+(while the resistance fee is:) Tj
+T*
+([code block omitted]) Tj
+T*
+(fee = s\(r\) * p * Δx) Tj
+T*
+([code block omitted]) Tj
+T*
+(Fees accumulate in the output token vault. Because batches aggregate flow, `r` is computed) Tj
+T*
+(using the net inflow within the batch, not per individual order. This prevents small) Tj
+T*
+(orders from being penalized when executed alongside large whales: the entire batch pays) Tj
+T*
+(the correct blended fee, and pro-rata adjustments ensure fairness.) Tj
+T*
+T*
+(3.4 Comparison with CPMM) Tj
+T*
+T*
+(A CPMM delivers slippage roughly proportional to `Δx / X`. In LandauSwap the slip grows) Tj
+T*
+(quadratically:) Tj
+T*
+([code block omitted]) Tj
+T*
+(slip_resistance ≈ \(Δx / X\)^2  when Δx << X) Tj
+T*
+([code block omitted]) Tj
+T*
+(For `Δx = 0.1%` of the pool, CPMM slip is ~10 bps, while Landau resistance results in slip) Tj
+T*
+(< 1 bp. For `Δx = 20%`, CPMM slip is ~25%, whereas resistance absorbs >60% of the trade as) Tj
+T*
+(fee, converting depth consumption into LP revenue rather than lost arbitrage opportunity.) Tj
+T*
+T*
+(3.5 Edge Cases) Tj
+T*
+T*
+(• **Low reserves:** guard rails abort trades when post-trade reserves drop below minimal) Tj
+T*
+(thresholds. Resistance curves enforce fee saturation, preventing full depletion.) Tj
+T*
+(• **Asymmetric liquidity:** curves operate on normalized ratios, so imbalanced pools still) Tj
+T*
+(deliver predictable fees; governance may adjust curve parameters to rebalance incentives.) Tj
+T*
+(• **Batch exposure:** the protocol sets maximum batch duration \(slots\) to limit exposure) Tj
+ET
+endstream
+endobj
+9 0 obj
+<< /Type /Page /Parent 2 0 R /Resources << /Font << /F1 3 0 R >> >> /MediaBox [0 0 612 792] /Contents 8 0 R >>
+endobj
+10 0 obj
+<< /Length 2196 >>
+stream
+BT
+/F1 11 Tf
+14 TL
+72 750 Td
+(to external price drift. Orders can specify an expiry slot; expired orders are cancelled) Tj
+T*
+(and funds returned.) Tj
+T*
+T*
+T*
+T*
+(4. Mechanism Design) Tj
+T*
+T*
+T*
+(4.1 Batch Clearing) Tj
+T*
+T*
+(Orders are accepted continuously but settled at discrete windows. The settler \(any keepers) Tj
+T*
+(or aggregators\) calls `settle_batch` once:) Tj
+T*
+(• Net inflow exceeds a volume threshold,) Tj
+T*
+(• Batch duration exceeds `min_batch_slots`,) Tj
+T*
+(• Or a manual trigger is provided by governance during low volume.) Tj
+T*
+T*
+(All trades in a batch clear at the same resistance-adjusted price. Because inflows do not) Tj
+T*
+(immediately alter reserves, sandwich bots cannot front-run individual orders. Settlers) Tj
+T*
+(earn a small rebate or share of resistance fees, incentivizing timely execution. Failure) Tj
+T*
+(to settle allows other actors to step in; the protocol enforces idempotence to avoid) Tj
+T*
+(double-counting.) Tj
+T*
+T*
+(4.2 Liquidity Management) Tj
+T*
+T*
+(LPs deposit SPL tokens into program-owned vaults and receive LP shares minted via the) Tj
+T*
+(resistance-aware invariant. Withdrawals burn shares and transfer tokens back) Tj
+T*
+(proportionally, including accrued fees. Fee distribution may be toggled between:) Tj
+T*
+(• **Compounded mode:** fees stay in the vault, increasing the value of each share.) Tj
+T*
+(• **Harvest mode:** governance routes a percentage to protocol treasury or incentives.) Tj
+T*
+T*
+(LPs can specify min-acceptable output upon deposit/withdrawal, preventing slippage from) Tj
+T*
+(curve parameter changes mid-transaction. Rebalancing bots and auto-compounding strategies) Tj
+T*
+(integrate through SDK hooks.) Tj
+T*
+T*
+(4.3 Integration with Aggregators) Tj
+T*
+T*
+(Aggregators query a quote service that mirrors on-chain reserves and curve parameters.) Tj
+T*
+(Quotes include:) Tj
+T*
+(• expected output,) Tj
+T*
+(• estimated resistance fee,) Tj
+T*
+(• effective price impact,) Tj
+T*
+(• settlement deadline.) Tj
+T*
+T*
+(Signed RFQ responses can be delivered to aggregators for deterministic routing. The) Tj
+T*
+(program emits event logs \(`OrderPlaced`, `BatchSettled`, `LiquidityChanged`\) enabling) Tj
+ET
+endstream
+endobj
+11 0 obj
+<< /Type /Page /Parent 2 0 R /Resources << /Font << /F1 3 0 R >> >> /MediaBox [0 0 612 792] /Contents 10 0 R >>
+endobj
+12 0 obj
+<< /Length 2387 >>
+stream
+BT
+/F1 11 Tf
+14 TL
+72 750 Td
+(subgraph/indexers to keep caches up to date. Cross-venue arbitrage is limited by the) Tj
+T*
+(convex fee curve; nonetheless, integrators can request partial fills or fall back to other) Tj
+T*
+(pools when Landau resistance deems a trade too large.) Tj
+T*
+T*
+T*
+T*
+(5. Implementation Architecture \(Solana + Anchor\)) Tj
+T*
+T*
+T*
+(5.1 Account Layout) Tj
+T*
+T*
+(Each pool uses Program Derived Addresses \(PDAs\) for custody and metadata:) Tj
+T*
+(• `Pool`: stores authority, mints, vaults, reserves, accumulated fees, curve type, and) Tj
+T*
+(governance flags.) Tj
+T*
+(• `VaultA`/`VaultB`: SPL Token accounts owned by the program to hold liquidity.) Tj
+T*
+(• `FeeVault` \(optional\): collects protocol share of resistance fees.) Tj
+T*
+(• `BatchState`: tracks outstanding net deltas, order count, last slot, and curve snapshot.) Tj
+T*
+(• `LpMint`: SPL mint representing LP shares; metadata records total supply and fee mode.) Tj
+T*
+(• `Config`: global parameters \(governance keys, pauses, supported curves\).) Tj
+T*
+T*
+(Account sizes are padded for future fields, aligned to 8-byte boundaries to satisfy rent) Tj
+T*
+(exemption.) Tj
+T*
+T*
+(5.2 Instruction Flow) Tj
+T*
+T*
+(1. `initialize_pool`: authority signs, pools PDAs derived via seeds `[POOL_SEED, mintA,) Tj
+T*
+(mintB]`. Vaults and LP mint are created, curve parameters registered.) Tj
+T*
+(2. `deposit_liquidity`: transfers user funds into vault PDAs, mints LP shares, updates) Tj
+T*
+(reserves and events.) Tj
+T*
+(3. `place_order`: verifies escrow token account, locks funds, records batch entry with) Tj
+T*
+(direction, amount, expiry.) Tj
+T*
+(4. `settle_batch`: calculates net deltas, runs `compute_resistance_trade`, releases output) Tj
+T*
+(tokens, records fees and batch id.) Tj
+T*
+(5. `withdraw_liquidity`: burns LP shares, transfers tokens, accounts for outstanding) Tj
+T*
+(settlement fees.) Tj
+T*
+(6. `admin_update_config`: multi-sig controlled changes to parameters, emergency pauses,) Tj
+T*
+(curve toggles.) Tj
+T*
+T*
+(All instructions include strict signer checks, PDA verification, and optional replay) Tj
+T*
+(protection \(recent slot check\).) Tj
+T*
+T*
+(5.3 Performance & Compute) Tj
+T*
+T*
+(Solana imposes ~200k compute units per transaction. The resistance math is O\(1\) and fits) Tj
+T*
+(well under 10k CUs. Batching ensures few large transactions rather than many small ones.) Tj
+ET
+endstream
+endobj
+13 0 obj
+<< /Type /Page /Parent 2 0 R /Resources << /Font << /F1 3 0 R >> >> /MediaBox [0 0 612 792] /Contents 12 0 R >>
+endobj
+14 0 obj
+<< /Length 2473 >>
+stream
+BT
+/F1 11 Tf
+14 TL
+72 750 Td
+(Parallel pools operate in separate PDAs, so concurrent transactions do not conflict. If) Tj
+T*
+(settlement fails \(e.g., compute overrun\), the batch is retried with reduced chunk size.) Tj
+T*
+T*
+(5.4 Security Surfaces) Tj
+T*
+T*
+(• **Access control:** only governance can change config; all other flows remain) Tj
+T*
+(permissionless.) Tj
+T*
+(• **Vault validation:** every transfer compares expected and actual vault balances to) Tj
+T*
+(detect flash-loan interference.) Tj
+T*
+(• **Batch manipulation:** orders include expiry slots; stale orders are cancelled) Tj
+T*
+(automatically to stop griefing.) Tj
+T*
+(• **Upgrade path:** governed by a multi-sig upgrade authority that publishes audits and) Tj
+T*
+(migration scripts before deployment.) Tj
+T*
+(• **Event indexing:** tamper-evident logs allow watchdogs to reconstruct state and detect) Tj
+T*
+(anomalies.) Tj
+T*
+T*
+T*
+T*
+(6. Evaluation & Testing) Tj
+T*
+T*
+(The evaluation plan spans simulation, on-chain testing, and security reviews:) Tj
+T*
+(• **Curve simulations:** offline Python/Rust suites replay historical order flow against) Tj
+T*
+(CPMM and Landau resistance curves, measuring slip, LP yield, and volatility.) Tj
+T*
+(• **Localnet integration tests:** Anchor-based suites cover instruction invariants, batch) Tj
+T*
+(settlement, fee accounting, and failure cases.) Tj
+T*
+(• **Fuzzing/property tests:** QuickCheck-style fuzzers explore boundary conditions) Tj
+T*
+(\(minimal reserves, extreme trade sizes\).) Tj
+T*
+(• **Load testing:** devnet deployment with bots generating thousands of orders per minute) Tj
+T*
+(to profile compute usage and latency.) Tj
+T*
+(• **Audit pipeline:** third-party audits focus on program safety, math correctness, and) Tj
+T*
+(governance mechanisms; bug bounty launches alongside guarded mainnet.) Tj
+T*
+T*
+(Key metrics include LP APY vs. CPMM baseline, fee capture distribution, average settlement) Tj
+T*
+(latency, failure rate per batch, and aggregator routing success.) Tj
+T*
+T*
+T*
+T*
+(7. Roadmap & Deployment Plan) Tj
+T*
+T*
+(1. **MVP Hardening \(now\):** finalize SPL custody, LP share accounting, rational curve, SDK) Tj
+T*
+(quoting prototype.) Tj
+T*
+(2. **Testnet Beta \(T+4 weeks\):** deploy to Solana devnet, onboard early LPs, integrate) Tj
+T*
+(with at least one aggregator sandbox, run audit.) Tj
+T*
+(3. **Guarded Mainnet Launch \(T+8 weeks\):** cap TVL, enable whitelisted settlers, introduce) Tj
+T*
+(protocol fee split.) Tj
+ET
+endstream
+endobj
+15 0 obj
+<< /Type /Page /Parent 2 0 R /Resources << /Font << /F1 3 0 R >> >> /MediaBox [0 0 612 792] /Contents 14 0 R >>
+endobj
+16 0 obj
+<< /Length 2637 >>
+stream
+BT
+/F1 11 Tf
+14 TL
+72 750 Td
+(4. **Curve Extensions \(T+12 weeks\):** add exponential/hybrid curves, adaptive fee bands) Tj
+T*
+(governed by DAO.) Tj
+T*
+(5. **Ecosystem Expansion \(T+20 weeks\):** release analytics dashboard, auto-rebalancing) Tj
+T*
+(bots, liquidity mining programs.) Tj
+T*
+(6. **DAO Transition \(T+28 weeks\):** hand governance to community-controlled DAO, expand) Tj
+T*
+(compliance tooling for institutional partners.) Tj
+T*
+T*
+(Each milestone triggers documentation updates, SDK releases, and community announcements.) Tj
+T*
+(Emergency procedures and rollback scripts are rehearsed before mainnet launch.) Tj
+T*
+T*
+T*
+T*
+(8. Tokenomics \(If Applicable\)) Tj
+T*
+T*
+(LandauSwap can operate without a native token; however, a protocol token unlocks) Tj
+T*
+(additional alignment:) Tj
+T*
+(• **Utility:** staking for governance, collateral for settler rewards, fee discounts for) Tj
+T*
+(routing partners.) Tj
+T*
+(• **Distribution:** bootstrap LP mining, grant shares to core contributors and ecosystem) Tj
+T*
+(partners with multi-year vesting.) Tj
+T*
+(• **Fee policy:** resistance fees split into `LP share`, `protocol treasury`, and optional) Tj
+T*
+(`insurance fund`. The treasury may buy back and burn tokens or fund further development.) Tj
+T*
+(• **Compliance:** jurisdiction-specific requirements \(KYC/AML\) are evaluated before) Tj
+T*
+(enabling token incentives in restricted regions. Governance maintains a modular denylist) Tj
+T*
+(contract for regulated integrations.) Tj
+T*
+T*
+(Any token launch is conditioned on legal review and DAO ratification.) Tj
+T*
+T*
+T*
+T*
+(9. Risk Analysis & Mitigations) Tj
+T*
+T*
+(• **Economic risks:** thin liquidity can amplify resistance fees and deter traders.) Tj
+T*
+(Mitigation includes targeted incentives, adaptive curves for low-liquidity pools, and) Tj
+T*
+(aggregator coordination to route partial orders.) Tj
+T*
+(• **Market manipulation:** whales might oscillate between pools to game fees. Batching and) Tj
+T*
+(convex costs reduce profitability; governance can adjust parameters rapidly via multi-sig.) Tj
+T*
+(• **Technical failures:** Solana congestion or program bugs may lock batches. Watchdog) Tj
+T*
+(services monitor backlog; pause mechanisms allow withdrawals while trading is frozen.) Tj
+T*
+(• **Keeper concentration:** if few settlers exist, batches may stall. Incentive programs) Tj
+T*
+(and open SDKs encourage multiple relayers; fallback settlement by governance remains) Tj
+T*
+(available.) Tj
+T*
+(• **Regulatory shifts:** monitoring frameworks and compliance-ready hooks position the) Tj
+T*
+(protocol to react quickly to new obligations.) Tj
+T*
+ET
+endstream
+endobj
+17 0 obj
+<< /Type /Page /Parent 2 0 R /Resources << /Font << /F1 3 0 R >> >> /MediaBox [0 0 612 792] /Contents 16 0 R >>
+endobj
+18 0 obj
+<< /Length 1448 >>
+stream
+BT
+/F1 11 Tf
+14 TL
+72 750 Td
+T*
+T*
+T*
+(10. References & Related Work) Tj
+T*
+T*
+(• Angeris et al., "Improved Price Oracles: Constant Function Market Makers" \(Uniswap) Tj
+T*
+(research\).) Tj
+T*
+(• Milionis et al., "Loss Versus Rebalancing: Measuring LVR in AMMs.") Tj
+T*
+(• Cow Protocol, "Batch Auctions and MEV Mitigation.") Tj
+T*
+(• Curve Finance, "Dynamic Fees on Stableswap.") Tj
+T*
+(• Solana Labs, "Compute Budget and Transaction Processing.") Tj
+T*
+(• Algebra Protocol, "Hybrid Liquidity Pools with Adaptive Curves.") Tj
+T*
+T*
+(Further references will be appended as formal citations once audit reports and simulation) Tj
+T*
+(whitepapers are published.) Tj
+T*
+T*
+T*
+T*
+(Appendices) Tj
+T*
+T*
+(• **Appendix A:** Detailed derivation of resistance functions and proofs of convexity \(in) Tj
+T*
+(preparation\).) Tj
+T*
+(• **Appendix B:** Simulation methodology, parameter tables, and sample datasets) Tj
+T*
+(\(forthcoming\).) Tj
+T*
+(• **Appendix C:** Glossary covering AMM terminology, MEV, LVR, PDA, and batching.) Tj
+T*
+(• **Appendix D:** Change log tracking revisions to this whitepaper.) Tj
+T*
+T*
+T*
+T*
+(Change Log) Tj
+T*
+T*
+(• **v0.9:** First complete draft aligning architecture blueprint, README positioning, and) Tj
+T*
+(implementation plan.) Tj
+T*
+T*
+(Feedback from partners, auditors, and community reviewers is welcome. Pull requests or) Tj
+T*
+(issues in the repository should tag `whitepaper` for visibility.) Tj
+ET
+endstream
+endobj
+19 0 obj
+<< /Type /Page /Parent 2 0 R /Resources << /Font << /F1 3 0 R >> >> /MediaBox [0 0 612 792] /Contents 18 0 R >>
 endobj
 xref
-0 6
+0 20
 0000000000 65535 f 
-0000000009 00000 n 
-0000000058 00000 n 
-0000000115 00000 n 
-0000000241 00000 n 
-0000001899 00000 n 
-trailer << /Size 6 /Root 1 0 R >>
+0000000015 00000 n 
+0000000064 00000 n 
+0000000168 00000 n 
+0000000238 00000 n 
+0000002928 00000 n 
+0000003054 00000 n 
+0000005150 00000 n 
+0000005276 00000 n 
+0000007716 00000 n 
+0000007842 00000 n 
+0000010090 00000 n 
+0000010218 00000 n 
+0000012657 00000 n 
+0000012785 00000 n 
+0000015310 00000 n 
+0000015438 00000 n 
+0000018127 00000 n 
+0000018255 00000 n 
+0000019755 00000 n 
+trailer
+<< /Size 20 /Root 1 0 R >>
 startxref
-1969
+19883
 %%EOF
